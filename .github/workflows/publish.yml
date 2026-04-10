@@ -4,8 +4,13 @@ on:
   push:
     branches: [main]
 
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
 jobs:
-  build-deploy:
+  build:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -15,7 +20,16 @@ jobs:
         uses: quarto-dev/quarto-actions/setup@v2
 
       - name: Render
-        uses: quarto-dev/quarto-actions/render@v2
+        run: quarto render
 
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: .
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
       - name: Deploy
-        uses: quarto-dev/quarto-actions/deploy@v2
+        uses: actions/deploy-pages@v4
