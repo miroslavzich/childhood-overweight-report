@@ -8,3 +8,10 @@ format:
   html:
     theme: cosmo
     toc: true
+    embed-resources: true
+    code-fold: true
+
+execute:
+  echo: true
+render:
+  - report.ipynb
